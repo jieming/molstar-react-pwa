@@ -1,0 +1,39 @@
+# *******************************************
+# Actual App
+# *******************************************
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: centaur-myapp-ui
+spec:
+  template:
+    spec:
+      volumes:
+        - name: src-volume
+          hostPath:
+            path: /Users/k8s/projects/centaur-myapp-ui
+            type: Directory
+      containers:
+        - name: centaur-myapp-ui
+          image: 'node:12'
+          tty: true
+          command: ['/bin/bash']
+          args: ['-c', 'npm install && npm start']
+          workingDir: /usr/app
+          volumeMounts:
+            - name: src-volume
+              mountPath: /usr/app
+          env:
+            - name: PORT
+              value: '80'
+            - name: CHOKIDAR_USEPOLLING
+              value: 'true'
+            - name: CHOKIDAR_INTERVAL
+              value: '2000'
+            - name: NPM_USER
+              value: exs
+            - name: NPM_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: azure
+                  key: npm-token

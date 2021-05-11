@@ -1,0 +1,66 @@
+{
+  "name": "exscientia-pwa",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.3.16",
+    "@centaur-ui/core": "^2.1.9",
+    "@centaur-ui/testing": "^1.6.1",
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^13.1.8",
+    "eh-bumpversion": "^1.2.3",
+    "graphql": "^15.5.0",
+    "jest-junit": "^12.0.0",
+    "notistack": "^1.0.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
+    "redux": "^4.1.0",
+    "redux-devtools-extension": "^2.13.9",
+    "use-analytics": "0.0.5"
+  },
+  "scripts": {
+    "start": "PUBLIC_URL=/myapp WDS_SOCKET_PATH=/myapp react-scripts start",
+    "build": "PUBLIC_URL=/myapp react-scripts build",
+    "test": "PUBLIC_URL=/myapp react-scripts test",
+    "eject": "react-scripts eject",
+    "test-ci": "PUBLIC_URL=/myapp CI=1 react-scripts test --ci --reporters=default --reporters=jest-junit --coverage=true ---coverageDirectory=test-output/coverage/jest",
+    "bumpversion-patch": "eh-bumpversion patch --no-push",
+    "bumpversion-minor": "eh-bumpversion minor --no-push",
+    "bumpversion-major": "eh-bumpversion major --no-push"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/index.js",
+      "<rootDir>/src/apollo-client.js",
+      "<rootDir>/src/serviceWorker.js",
+      "<rootDir>/src/root-reducer.js",
+      "<rootDir>/src/redux-store.js"
+    ]
+  },
+  "jest-junit": {
+    "outputDirectory": "test-output/coverage/junit",
+    "outputName": "jest-coverage.xml"
+  }
+}

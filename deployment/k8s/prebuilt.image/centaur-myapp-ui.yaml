@@ -1,0 +1,72 @@
+# *******************************************
+# DNS for UI
+# *******************************************
+apiVersion: v1
+kind: Service
+metadata:
+  name: centaur-myapp-ui
+spec:
+  selector:
+    app: centaur-myapp-ui
+    tier: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http
+
+---
+# *******************************************
+# URL Routing
+# *******************************************
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: centaur-ui-myapp
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /myapp
+            backend:
+              serviceName: centaur-myapp-ui
+              servicePort: 80
+
+---
+# *******************************************
+# Actual App
+# *******************************************
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: centaur-myapp-ui
+spec:
+  selector:
+    matchLabels:
+      app: centaur-myapp-ui
+      tier: frontend
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: 'false'
+      labels:
+        app: centaur-myapp-ui
+        tier: frontend
+    spec:
+      containers:
+        - name: centaur-myapp-ui
+          imagePullPolicy: Always
+          image: '436123191774.dkr.ecr.eu-west-1.amazonaws.com/centaur-myapp-ui:latest'
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            initialDelaySeconds: 3
+            periodSeconds: 3
+            failureThreshold: 30
+            httpGet:
+              path: /
+              port: 80
