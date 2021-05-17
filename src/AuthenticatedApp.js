@@ -1,10 +1,7 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import { StatelessHeader } from '@centaur-ui/core'
+import { Route } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import { useDispatch } from 'react-redux'
-import NavMenuContainer from './components/nav-menu/NavMenuContainer'
-import Introduction from './components/guidance/Introduction'
+import { Home } from './components/home/Home'
 
 const useStyles = makeStyles(theme => ({
   appContainer: {
@@ -25,22 +22,12 @@ const useStyles = makeStyles(theme => ({
 
 const AuthenticatedApp = () => {
   const classes = useStyles()
-  const dispatch = useDispatch()
-
-  const menuToggler = () => dispatch({ type: 'TOGGLE-MENU-OPEN' })
 
   return (
     <div className={classes.appContainer}>
-      <StatelessHeader toggleNavMenu={menuToggler} />
       <div className={classes.contentFrame}>
-        <NavMenuContainer />
         <div className={classes.appContent}>
-          <Route
-            exact
-            path='/'
-            component={() => <Redirect to='introduction' />}
-          />
-          <Route exact path='/introduction' component={Introduction} />
+          <Route exact path='/' component={Home} />
         </div>
       </div>
     </div>
